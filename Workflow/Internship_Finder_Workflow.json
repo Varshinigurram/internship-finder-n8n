@@ -1,0 +1,611 @@
+{
+  "name": "Internship FInder",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -592,
+        112
+      ],
+      "id": "4cfee635-c130-48da-9ea6-dd6efa436612",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "=https://internshala.com/internships/page-{{$json[\"page\"]}}/",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -128,
+        16
+      ],
+      "id": "bded7bc9-f557-4b1c-8c0b-f5b2c8cdb725",
+      "name": "HTTP Request",
+      "notesInFlow": false,
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "title",
+              "cssSelector": "h3"
+            },
+            {
+              "key": "link",
+              "cssSelector": "a",
+              "returnValue": "attribute",
+              "attribute": "href"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        128,
+        16
+      ],
+      "id": "221894ff-5963-4f7e-9018-fae58b5382da",
+      "name": "HTML"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "28c2c31c-6b51-4750-ab41-8b65ff68d204",
+              "name": "=role",
+              "value": "={{$json[\"title\"].split(\"[\")[0]}}",
+              "type": "string"
+            },
+            {
+              "id": "73d51f7e-38b0-4008-9643-f9c14c5e015d",
+              "name": "apply_link",
+              "value": "={{$json[\"link\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "bd331647-4f3a-477f-97ac-a7da2950fd08",
+              "name": "source",
+              "value": "Internship Website",
+              "type": "string"
+            },
+            {
+              "id": "9ad3a5d9-4eb7-4d48-836d-ebeb411a134d",
+              "name": "=date_found",
+              "value": "={{$now}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        400,
+        16
+      ],
+      "id": "7b2756d7-8fff-4688-893a-8a10accc28a4",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "27c24bb2-5508-4e23-a35e-a756999294ef",
+              "leftValue": "={{$json[\"role\"]}}",
+              "rightValue": "AI",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "a5115ce0-c269-4ecf-a085-2139eeb33888",
+              "leftValue": "={{$json[\"role\"]}} contains Software",
+              "rightValue": "Software",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "f0eeb874-bd4e-43ce-b090-6ff8796a5d9d",
+              "leftValue": "={{$json[\"role\"]}} contains Data",
+              "rightValue": "Data",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "d2750b08-2039-4d5c-bab2-410d9c198401",
+              "leftValue": "={{$json[\"role\"]}}",
+              "rightValue": "Python",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "ba115f59-e6fb-4ce0-b4c5-22234c0f818c",
+              "leftValue": "={{$json[\"role\"]}}",
+              "rightValue": "Data Analyst Intern",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "dcf1594a-8320-4d18-9f9f-d392c66027ec",
+              "leftValue": "={{$json[\"role\"]}}",
+              "rightValue": "Frontend Development",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "05bdca2e-b975-4e23-8e27-44b79172b2b3",
+              "leftValue": "={{$json[\"role\"]}}",
+              "rightValue": "Web Designing",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "81c1a3f5-4424-4567-9848-c28d18bb2cd3",
+              "leftValue": "={{$json[\"role\"]}}",
+              "rightValue": "Node.js",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "59763f8c-2d89-483e-9d1f-fc3173b81adc",
+              "leftValue": "={{$json[\"role\"]}}",
+              "rightValue": "Machine Learning Intern",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "7a9392c4-5cda-4336-9eb4-dab89239c61b",
+              "leftValue": "={{$json[\"role\"]}}",
+              "rightValue": "Developer",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        976,
+        128
+      ],
+      "id": "4a099b38-fc4d-4a30-bb63-e09c151a94b5",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1lscldvx_IIJr0GYb7aLoNhqWiUbHgUE6WupM3fzYg9I",
+          "mode": "list",
+          "cachedResultName": "Internship Tracker1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lscldvx_IIJr0GYb7aLoNhqWiUbHgUE6WupM3fzYg9I/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lscldvx_IIJr0GYb7aLoNhqWiUbHgUE6WupM3fzYg9I/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Role": "={{$json[\"role\"]}}",
+            "Apply Link": "={{$json[\"apply_link\"]}}",
+            "Source": "={{$json[\"source\"]}}",
+            "Date": "={{$json[\"date_found\"]}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Role",
+              "displayName": "Role",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Apply Link",
+              "displayName": "Apply Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Source",
+              "displayName": "Source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1264,
+        112
+      ],
+      "id": "fcbebc19-a8a7-488a-8517-88d9068c058f",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "aQXkPjsFhnpraggt",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  { json: { page: 1 } },\n  { json: { page: 2 } },\n  { json: { page: 3 } },\n  { json: { page: 4 } },\n  { json: { page: 5 } }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -384,
+        112
+      ],
+      "id": "46054f7b-51b6-4e63-83d2-c96a88015e2c",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "url": "=https://remoteok.com/api",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        32,
+        288
+      ],
+      "id": "6f8999e9-856f-4e83-b919-28d402b5c269",
+      "name": "HTTP Request1",
+      "notesInFlow": false,
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "28c2c31c-6b51-4750-ab41-8b65ff68d204",
+              "name": "=role",
+              "value": "={{$json.position}}",
+              "type": "string"
+            },
+            {
+              "id": "73d51f7e-38b0-4008-9643-f9c14c5e015d",
+              "name": "apply_link",
+              "value": "={{$json[\"apply_url\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "bd331647-4f3a-477f-97ac-a7da2950fd08",
+              "name": "source",
+              "value": "RemoteOK",
+              "type": "string"
+            },
+            {
+              "id": "9ad3a5d9-4eb7-4d48-836d-ebeb411a134d",
+              "name": "=date_found",
+              "value": "={{$now}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        544,
+        272
+      ],
+      "id": "8bb783a0-8aed-4f3d-9d59-932531e59b9e",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        768,
+        128
+      ],
+      "id": "2b0423e5-60b6-4fb7-8ea0-526f40ec4533",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  { json: { page: 1 } },\n  { json: { page: 2 } },\n  { json: { page: 3 } },\n  { json: { page: 4 } },\n  { json: { page: 5 } }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -144,
+        288
+      ],
+      "id": "a05ace6a-cc24-469d-ae8f-a2ba928b1bf7",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "ab5c642c-0ba4-4dc4-8e8d-3ceedda9deb0",
+              "leftValue": "={{$json[\"position\"]}}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        368,
+        288
+      ],
+      "id": "5f3e33de-efea-4c2f-b93d-566c807324df",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json.data;\nconst jobs = JSON.parse(raw);\n\n// Remove the first metadata item\njobs.shift();\n\nreturn jobs.map(job => ({\n  json: job\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        192,
+        288
+      ],
+      "id": "d7624e1d-ace5-40f0-acd2-10c26c1c2440",
+      "name": "Code in JavaScript2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        []
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "64b91e4e-8743-4079-bb5f-85e5179a564f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1e2a993141d60bbe0c80a9ad5d122fb1504cc9d77203d6076b6f7247d7d05fca"
+  },
+  "id": "ilvuCMCptG-z31CkE94qc",
+  "tags": []
+}
