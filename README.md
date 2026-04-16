@@ -29,8 +29,11 @@ This project is a **smart automation system** that continuously scans multiple s
 ## ✨ What Makes This Different
 
 🚀 Not just scraping — it's an **automation pipeline**
+
 🧠 Structured like a **real data engineering system**
+
 ⚡ Runs automatically without manual effort
+
 📊 Builds a **centralized opportunity tracker**
 
 ---
